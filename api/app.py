@@ -37,6 +37,13 @@ def serve_index():
     carpeta_ui = os.path.join(directorio_raiz, 'ui')
     return send_from_directory(carpeta_ui, 'index.html')
 
+# Esta ruta es necesaria para servir los archivos estáticos css y js.
+@app.route('/<path:filename>')
+def serve_static(filename):
+    """Sirve los archivos estáticos como styles.css y app.js."""
+    carpeta_ui = os.path.join(directorio_raiz, 'ui')
+    return send_from_directory(carpeta_ui, filename)
+
 
 # 4. ENSAMBLAJE DE LA ARQUITECTURA
 user_repo = JSONUserRepository()
