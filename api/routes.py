@@ -9,6 +9,49 @@ class UserRegisterResource(Resource):
         super().__init__()
 
     def post(self):
+        """
+        Registra un nuevo elemento naval.
+        Recibe los datos del elemento y una fotografía en base64 para extraer la biometría facial y darlo de alta en el sistema.
+        ---
+        tags:
+          - Administración
+        parameters:
+          - in: body
+            name: body
+            required: true
+            schema:
+              type: object
+              required:
+                - id
+                - name
+                - image_b64
+              properties:
+                id:
+                  type: string
+                  description: Matrícula del elemento
+                grade:
+                  type: string
+                  description: Grado militar (ej. Teniente de Navío)
+                name:
+                  type: string
+                  description: Nombre completo
+                assignment:
+                  type: string
+                  description: Adscripción
+                role:
+                  type: string
+                  description: Cargo
+                image_b64:
+                  type: string
+                  description: Fotografía capturada por la cámara en formato base64
+        responses:
+          201:
+            description: Elemento registrado exitosamente.
+          400:
+            description: Faltan datos o imagen.
+          500:
+            description: Error interno del servidor.
+        """
         data = request.json
         if not data or 'image_b64' not in data:
             return {"mesage": "Faltan datos o imagen"}, 400
@@ -41,6 +84,43 @@ class AttendanceResource(Resource):
 
     
     def post(self):
+        """
+        Registra un pase de lista (Entrada o Salida).
+        Identifica al usuario mediante biometría facial y registra su movimiento, tomando en cuenta su ubicación GPS.
+        ---
+        tags:
+          - Pase de Lista
+        parameters:
+          - in: body
+            name: body
+            required: true
+            schema:
+              type: object
+              required:
+                - image_b64
+              properties:
+                image_b64:
+                  type: string
+                  description: Fotografía capturada en formato base64
+                is_entry:
+                  type: boolean
+                  description: true para entrada, false para salida
+                reason:
+                  type: string
+                  description: Motivo del movimiento (ej. Ingreso a labores, Comisión)
+                location:
+                  type: string
+                  description: Ubicación detectada por el GPS
+        responses:
+          200:
+            description: Registro procesado exitosamente.
+          400:
+            description: Faltan datos o imagen.
+          404:
+            description: Rostro no reconocido o no se encuentra en el sistema.
+          500:
+            description: Error interno al procesar el registro.
+        """
         data = request.json
         if not data or 'image_b64' not in data:
             return {"message": "Faltan datos o imagen"}, 400
@@ -81,6 +161,16 @@ class SituationReportResource(Resource):
         super().__init__()
 
     def get(self):
+        """
+        Obtiene el reporte de situación en tiempo real.
+        Este endpoint devuelve la lista del personal a bordo y fuera de la unidad.
+        ---
+        tags:
+          - Reportes
+        responses:
+          200:
+            description: Operación exitosa. Devuelve el JSON con la situación.
+        """
         situacion = self.service.get_current_situation()
         return situacion, 200
 
@@ -92,6 +182,16 @@ class DailyReportResource(Resource):
 
 
     def get(self):
+        """
+        Obtiene todos los movimientos del día.
+        Lista completa de entradas y salidas registradas durante el día actual.
+        ---
+        tags:
+          - Reportes
+        responses:
+          200:
+            description: Lista de movimientos navales.
+        """
         # Genera la lista de todos los movimientos del día
         # situation = self.service.get_current_situation() # Esto lo arrojo copilot de VSCode ¿Es correcto?
         records = self.service.get_daily_report()
