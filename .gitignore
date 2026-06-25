@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Entorno virtual
+venv/
+.venv/
+ENV/
+
+# Dependencias
+pip-log.txt
+pip-delete-this-directory.txt
+
+# DeepFace / Keras cache
+~/.deepface/
+~/.keras/
+~/.opencv/
+
+# Datos generados (runtime)
+infra/data/
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Docker
+docker-compose.override.yml
+
+# Logs
+*.log

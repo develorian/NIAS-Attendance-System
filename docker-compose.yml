@@ -1,0 +1,13 @@
+services:
+  nias:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - nias_data:/app/infra/data
+    restart: unless-stopped
+    environment:
+      - FLASK_ENV=production
+
+volumes:
+  nias_data:
