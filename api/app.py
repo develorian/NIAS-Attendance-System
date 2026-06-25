@@ -25,15 +25,19 @@ from api.routes import UserRegisterResource, AttendanceResource, SituationReport
 app = Flask(__name__)
 
 # Ruta al directorio ui/ (un nivel arriba de api/)
-UI_DIR = os.path.join(directorio_raiz, 'ui')
+# UI_DIR = os.path.join(directorio_raiz, 'ui')
 
 
 @app.route('/')
 def serve_index():
+    """Buscamos la carpeta 'ui' desde la raíz del proyecto"""
+    directorio_raiz = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    carpeta_ui = os.path.join(directorio_raiz, 'ui')
+    return send_from_directory(carpeta_ui, 'index.html')
     """Sirve el frontend principal."""
-    return send_from_directory(UI_DIR, 'index.html')
+    # return send_from_directory(UI_DIR, 'index.html')
 
-    
+
 @app.route('/<path:path>')
 def serve_static(path):
     """Sirve archivos estáticos del frontend (CSS, JS, etc.)."""
