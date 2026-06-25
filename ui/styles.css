@@ -1,0 +1,265 @@
+/* ==========================================================================
+   VARIABLES GLOBALES (Diseño Agnóstico y Escalable)
+   ========================================================================== */
+   :root {
+    /* Paleta de Colores (Tema Claro por defecto) */
+    --hue-navy: 215;
+    --color-bg: hsl(var(--hue-navy), 20%, 96%);
+    --color-surface: hsl(var(--hue-navy), 20%, 100%);
+    --color-text-main: hsl(var(--hue-navy), 40%, 15%);
+    --color-text-muted: hsl(var(--hue-navy), 20%, 45%);
+    --color-border: hsl(var(--hue-navy), 20%, 85%);
+    
+    --color-primary: hsl(var(--hue-navy), 60%, 40%);
+    --color-primary-hover: hsl(var(--hue-navy), 60%, 30%);
+    --color-success: hsl(140, 50%, 45%);
+    --color-danger: hsl(350, 60%, 50%);
+    --color-inactive: hsl(var(--hue-navy), 10%, 80%);
+
+    /* Tipografía (Escalado fluido con Clamp) */
+    --font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    --text-xs: clamp(0.75rem, 1vw, 0.875rem);
+    --text-sm: clamp(0.875rem, 1.5vw, 1rem);
+    --text-md: clamp(1rem, 2vw, 1.125rem);
+    --text-lg: clamp(1.25rem, 2.5vw, 1.5rem);
+    --text-xl: clamp(1.5rem, 3vw, 2rem);
+    --text-2xl: clamp(2rem, 5vw, 3rem);
+
+    /* Espaciado */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2rem;
+    --space-xl: 3rem;
+
+    /* Bordes y Sombras */
+    --rad-sm: 0.5rem;
+    --rad-md: 1rem;
+    --rad-lg: 1.5rem;
+    --rad-full: 9999px;
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+    
+    /* Transiciones */
+    --trans-fast: 0.15s ease;
+    --trans-normal: 0.3s ease;
+}
+
+/* Tema Oscuro (Navy) - Se activa con [data-theme="dark"] o preferencia del sistema */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-bg: hsl(var(--hue-navy), 40%, 10%);
+        --color-surface: hsl(var(--hue-navy), 40%, 15%);
+        --color-text-main: hsl(var(--hue-navy), 20%, 95%);
+        --color-text-muted: hsl(var(--hue-navy), 20%, 70%);
+        --color-border: hsl(var(--hue-navy), 30%, 25%);
+        --color-inactive: hsl(var(--hue-navy), 20%, 25%);
+    }
+}
+
+[data-theme="dark"] {
+    --color-bg: hsl(var(--hue-navy), 40%, 10%);
+    --color-surface: hsl(var(--hue-navy), 40%, 15%);
+    --color-text-main: hsl(var(--hue-navy), 20%, 95%);
+    --color-text-muted: hsl(var(--hue-navy), 20%, 70%);
+    --color-border: hsl(var(--hue-navy), 30%, 25%);
+    --color-inactive: hsl(var(--hue-navy), 20%, 25%);
+}
+
+/* ==========================================================================
+   RESET & BASE
+   ========================================================================== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: var(--font-family);
+    background-color: var(--color-bg);
+    color: var(--color-text-main);
+    line-height: 1.5;
+    transition: background-color var(--trans-normal), color var(--trans-normal);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   CLASES UTILITARIAS (Estilo Tailwind)
+   ========================================================================== */
+/* Layout */
+.w-full { width: 100%; }
+.max-w-screen { max-width: 600px; margin: 0 auto; }
+.min-h-screen { min-height: 100vh; }
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.gap-xs { gap: var(--space-xs); }
+.gap-sm { gap: var(--space-sm); }
+.gap-md { gap: var(--space-md); }
+
+/* Spacing */
+.p-sm { padding: var(--space-sm); }
+.p-md { padding: var(--space-md); }
+.py-md { padding-top: var(--space-md); padding-bottom: var(--space-md); }
+.mt-sm { margin-top: var(--space-sm); }
+.mt-md { margin-top: var(--space-md); }
+.mb-lg { margin-bottom: var(--space-lg); }
+
+/* Typography */
+.text-center { text-align: center; }
+.text-xs { font-size: var(--text-xs); }
+.text-sm { font-size: var(--text-sm); }
+.text-md { font-size: var(--text-md); }
+.text-lg { font-size: var(--text-lg); font-weight: 600; }
+.text-xl { font-size: var(--text-xl); font-weight: 700; }
+.text-2xl { font-size: var(--text-2xl); font-weight: 300; letter-spacing: 2px; }
+.text-muted { color: var(--color-text-muted); }
+.text-primary { color: var(--color-primary); }
+.uppercase { text-transform: uppercase; }
+
+/* Visuals */
+.bg-surface { background-color: var(--color-surface); }
+.rounded-md { border-radius: var(--rad-md); }
+.rounded-lg { border-radius: var(--rad-lg); }
+.shadow-sm { box-shadow: var(--shadow-sm); }
+.shadow-md { box-shadow: var(--shadow-md); }
+.border { border: 1px solid var(--color-border); }
+.overflow-hidden { overflow: hidden; }
+
+/* ==========================================================================
+   COMPONENTES ESPECÍFICOS
+   ========================================================================== */
+/* Cámara */
+.camera-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3/4;
+    background-color: #000;
+}
+.camera-wrapper video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scaleX(-1); /* Efecto espejo */
+}
+.camera-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.camera-guide {
+    width: 60%;
+    height: 50%;
+    border: 2px dashed rgba(255,255,255,0.5);
+    border-radius: 50% 50% 40% 40%;
+    animation: pulse 2s infinite;
+}
+
+/* Botones */
+.btn {
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--rad-md);
+    border: none;
+    font-size: var(--text-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--trans-fast);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    position: relative;
+    overflow: hidden;
+}
+.btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: white;
+    opacity: 0;
+    transition: opacity var(--trans-fast);
+}
+.btn:active::after { opacity: 0.2; }
+
+.btn-primary { background-color: var(--color-primary); color: white; }
+.btn-success { background-color: var(--color-success); color: white; }
+.btn-success:hover { box-shadow: 0 0 15px var(--color-success); }
+.btn-outline { background-color: transparent; border: 2px solid var(--color-border); color: var(--color-text-main); }
+
+/* Toggle Buttons (Entrada/Salida) */
+.toggle-group { display: flex; gap: var(--space-sm); width: 100%; }
+.toggle-btn {
+    flex: 1;
+    background-color: var(--color-surface);
+    border: 2px solid var(--color-inactive);
+    color: var(--color-text-muted);
+}
+.toggle-btn[data-state="active"][data-type="entrada"] {
+    background-color: var(--color-success);
+    border-color: var(--color-success);
+    color: white;
+}
+.toggle-btn[data-state="active"][data-type="salida"] {
+    background-color: var(--color-danger);
+    border-color: var(--color-danger);
+    color: white;
+}
+
+/* Inputs */
+.input-field {
+    width: 100%;
+    padding: var(--space-sm);
+    border: 1px solid var(--color-border);
+    border-radius: var(--rad-sm);
+    background-color: var(--color-bg);
+    color: var(--color-text-main);
+    font-size: var(--text-md);
+    transition: border-color var(--trans-fast);
+}
+.input-field:focus { outline: none; border-color: var(--color-primary); }
+
+/* Toasts (Notificaciones Modernas) */
+.toast-container {
+    position: fixed;
+    bottom: var(--space-md);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    z-index: 9999;
+    width: 90%;
+    max-width: 400px;
+}
+.toast {
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--rad-sm);
+    color: white;
+    font-weight: 600;
+    font-size: var(--text-sm);
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    animation: slideUp var(--trans-normal) forwards;
+}
+.toast.success { background-color: var(--color-success); }
+.toast.error { background-color: var(--color-danger); }
+.toast.info { background-color: var(--color-primary); }
+
+/* Animaciones */
+@keyframes pulse {
+    0% { transform: scale(0.95); opacity: 0.5; }
+    50% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(0.95); opacity: 0.5; }
+}
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/*
+MEJORAS DE DISEÑO v1.0.0.:
+Puro CSS / Sin librerías externas pesadas: Tienes la estructura mental de Tailwind (clases como flex-col, gap-sm), pero procesado nativamente por el navegador usando variables de CSS.
+
+Tema Oscuro Inteligente: Si el celular del guardia está en modo oscuro para la guardia nocturna, la interfaz se pondrá azul marino profundo automáticamente para no lastimar los ojos.
+*/
