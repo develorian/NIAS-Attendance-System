@@ -70,6 +70,15 @@ function showToast(message, type = 'info') {
 }
 
 // Lógica de los botones Toggle (Entrada/Salida)
+function openTab(evt, tabName) {
+    playSound('click');
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(tab => tab.classList.remove('active'));
+
+    document.getElementById(tabName).classList.add('active');
+    evt.currentTarget.classList.add('active'); // Esto ilumina la pestaña estilo folder
+}
+
 btnEntrada.addEventListener('click', () => {
     playSound('click');
     isEntrySelected = true;

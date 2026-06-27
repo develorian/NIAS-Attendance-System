@@ -1,84 +1,122 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>NIAS - Control de Asistencia Naval</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
-    <main class="max-w-screen min-h-screen flex flex-col">
-        
-        <header class="p-md text-center bg-surface shadow-sm rounded-b-lg">
-            <p class="text-sm text-muted uppercase tracking-widest">Bienvenido al NIAS</p>
-            <h1 class="text-lg text-primary">Naval Identity & Attendance System</h1>
-            
-            <div class="mt-md">
-                <div id="clock-time" class="text-2xl font-mono">--:-- HRS</div>
-                <div id="clock-date" class="text-sm text-muted uppercase mt-xs">-- --- ----</div>
-            </div>
+    <main class="app-container">
+
+        <!-- HEADER -->
+        <header class="header shadow-sm text-center">
+            <h1 class="text-xl text-primary"> NIAS</h1>
+            <p class="text-xs text-muted uppercase">Naval Identity & Attendance System</p>
+
         </header>
 
-        <section class="p-md flex flex-col gap-sm">
-            <h2 class="text-md text-center text-muted uppercase">Identificador Biométrico</h2>
-            
-            <div class="camera-wrapper rounded-lg shadow-md overflow-hidden border">
+        <!-- CÁMERA SECTION -->
+        <section class="camera-section flex flex-col gap-sm text-center rounded-b-lg shadow-md">
+            <h2 class="text-sm text-center text-muted uppercase">Identificador Biométrico</h2>
+            <div class="camera-wrapper rounded-md shadow-md">
                 <video id="webcam" autoplay playsinline></video>
                 <div class="camera-overlay">
                     <div class="camera-guide"></div>
                 </div>
-                <p class="absolute top-sm w-full text-center text-sm" style="position:absolute; top:1rem; color:rgba(255,255,255,0.8); text-shadow: 0 2px 4px rgba(0,0,0,0.8);">
+                <p class="absolute w-full text-center text-sm"
+                    style="position:absolute; top:1rem; color:rgba(255,255,255,0.8); text-shadow: 0 2px 4px rgba(0,0,0,0.8);">
                     Acerca tu rostro
                 </p>
             </div>
-            
-            <p id="location-display" class="text-xs text-center text-muted">
-                📍 Detectando ubicación...
-            </p>
-            <canvas id="canvas" style="display: none;"></canvas>
-        </section>
 
-        <section class="p-md bg-surface shadow-sm rounded-t-lg mt-auto">
-            <h2 class="text-md text-muted uppercase mb-md text-center border-b pb-sm" style="border-bottom: 1px solid var(--color-border); padding-bottom: var(--space-xs);">Panel de Guardia</h2>
-            
-            <div class="flex flex-col gap-md">
-                <div class="toggle-group">
-                    <button id="btn-entrada" class="btn toggle-btn" data-type="entrada" data-state="active">Entrada ⬇</button>
-                    <button id="btn-salida" class="btn toggle-btn" data-type="salida" data-state="inactive">Salida ⬆</button>
+            <div class="flex justify-between items-center">
+                <p id="location-display" class="text-xs text-muted">📍 Detectando ubicación...</p>
+                <div class="text-right">
+                    <div id="clock-time" class="text-lg font-mono">--:-- hrs</div>
+                    <div id="clock-date" class="text-xs text-muted uppercase">-- --- ----</div>
                 </div>
-
-                <div>
-                    <label class="text-xs text-muted block mb-xs" style="margin-bottom: 4px;">Motivo:</label>
-                    <input type="text" id="reason" class="input-field" value="Ingreso a labores">
-                </div>
-
-                <button id="btn-registrar" class="btn btn-success w-full text-lg py-md">
-                    📷 Registrar Movimiento
-                </button>
             </div>
         </section>
 
-        <section class="p-md mt-lg border-t" style="border-top: 1px dashed var(--color-border);">
-            <h2 class="text-md text-muted uppercase mb-md text-center">Alta de Elemento (Admin)</h2>
-            
-            <div class="flex flex-col gap-sm">
-                <input type="text" id="reg_id" class="input-field" placeholder="Matrícula (Ej. 123456)">
-                <input type="text" id="reg_grade" class="input-field" placeholder="Grado (Ej. Teniente de Navío)">
-                <input type="text" id="reg_name" class="input-field" placeholder="Nombre Completo">
-                <input type="text" id="reg_assign" class="input-field" placeholder="Adscripción">
-                <input type="text" id="reg_role" class="input-field" placeholder="Cargo">
-                
-                <button id="btn-alta" class="btn btn-outline w-full mt-sm">
-                    👤 Dar de Alta
-                </button>
+
+        <!-- TABS SECTION -->
+        <section class="tabs-section">
+
+            <div class="tab-nav">
+                <button class="tab-btn active" onclick="openTab(event, 'pase-lista')">PASE DE LISTA</button>
+                <button class="tab-btn" onclick="openTab(event, 'admin')">ADMIN (ALTAS)</button>
+            </div>
+
+
+            <div class="tabs-body shadow-sm">
+                <div id="pase-lista" class="tab-content active">
+                    <div class="flex flex-col gap-sm">
+                        <!-- 
+                        <h2 class="text-md text-muted uppercase mb-md text-center">Movimientos de personal</h2>
+                        -->
+                        <div class="toggle-group">
+                            <button id="btn-entrada" class="btn toggle-btn" data-type="entrada"
+                                data-state="active">Entrada ⬇</button>
+                            <button id="btn-salida" class="btn toggle-btn" data-type="salida"
+                                data-state="inactive">Salida ⬆</button>
+                        </div>
+                        <div>
+                            <label class="text-xs text-muted block mb-xs">Motivo:</label>
+                            <input type="text" id="reason" class="input-field mb-md" value="Ingreso a labores">
+                        </div>
+                    </div>
+                    <button id="btn-registrar" class="btn btn-success w-full text-lg py-sm ">📷 Registrar
+                        Movimiento</button>
+                </div>
+
+                <div id="admin" class="tab-content">
+                    <div class="flex flex-col gap-xs">
+                        <h2 class="text-md text-muted uppercase mb-md text-center">Formulario de Alta</h2>
+                        <input type="text" id="reg_id" class="input-field" placeholder="Matrícula (Ej. 123456)">
+                        <input type="text" id="reg_grade" class="input-field"
+                            placeholder="Grado (Ej. Teniente de Navío)">
+                        <input type="text" id="reg_name" class="input-field" placeholder="Nombre Completo">
+                        <input type="text" id="reg_assign" class="input-field" placeholder="Adscripción">
+                        <input type="text" id="reg_role" class="input-field" placeholder="Cargo">
+                    </div>
+                    <button id="btn-alta" class="btn btn-outline w-full mt-sm">
+                        👤 Dar de Alta
+                    </button>
+                </div>
+            </div>
             </div>
         </section>
 
+        <canvas id="canvas" style="display: none;"></canvas>
+
+        <footer class="footer">
+            <p id="copyright">&copy; <span id="year"></span>. ⚡ Powered by <a href="https://x.com/Develorian_"
+                    style="text-decoration: none; color: darkblue; font-weight: 700; cursor: pointer;">Develorian</a> | With 🩵 <span
+                    style="color:green; font-weight: bold;">#M</span><span
+                    style="font-weight: bold; color: white;">E<span></span><span
+                        style="color: red; font-weight: bold; text-shadow: black;">XA</span></p>
+            <div class="badges">
+                <span class="badge">HTML5</span><span class="badge">CSS3</span><span class="badge">JS</span><span
+                    class="badge">Python</span><span class="badge">Flask</span><span class="badge">deepface</span><span
+                    class="badge">IA</span>
+            </div>
+            <div class="contact" style="margin-top: 4px;">
+                <a href="http://github.com/mirepo" target="_blank">Github</a> | <a href="http://x.com/micuenta">X
+                    (Twitter)</a>
+            </div>
+        </footer>
     </main>
 
     <div id="toast-container" class="toast-container"></div>
 
     <script src="app.js"></script>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
 </body>
+
 </html>
